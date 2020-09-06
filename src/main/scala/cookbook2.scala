@@ -1,10 +1,10 @@
 import java.io.{BufferedWriter, FileWriter}
 
-object Cookbook2 extends App {
+object cookbook2 extends App {
   //  val srcName = "13177-8.txt"
   //  val dstName = "13177-8-results.txt"
   val srcName = "C:/cookbook_hw/cookbook.txt"
-  val dstName = "C:/cookbook_hw/cookbook_result1.txt"
+  val dstName = "C:/cookbook_hw/cookbook_result2.txt"
 
   val filePointer = scala.io.Source.fromFile(srcName)
 
@@ -19,24 +19,28 @@ object Cookbook2 extends App {
 
   def processSeq(mySeq:Seq[String])= {
 
-    //mySeq.slice(0,8) //just some lines
-
-    //iterative solution
-
-    //val pattern = "/^[^a-z]*$".r
-    val patternForHeader = "[^a-z]+[\\s\\S]*$"
-    val patternForTab = "^[\\s]{4}[\\S]+[\\s\\S]+"
+    val patternForHeader = "^[^a-z]+$"
+    val patternNonEmpty = "^[\\s\\S]+[\\S]+[\\s\\S]+"
+    val patternForRecipes = "^[\\s]{4}[\\S]+[\\s\\S]+"
+    var isNewHeader: Boolean = false
+    var Header: String = ""
 
     var newSeq: Seq[String] = Seq()
     for (i <- 0 to 3880) {
-      //newSeq = newSeq :+ mySeq(i) //so we keep making new sequence using old one as base
 
-      if(mySeq(i) matches patternForHeader){
-        if(mySeq(i) matches patternForTab) {
-          newSeq = newSeq :+ mySeq(i)
-        }
+      if ((mySeq(i) matches patternForHeader) && (mySeq(i) matches patternNonEmpty)) {
+        newSeq = newSeq :+ mySeq(i)
+        isNewHeader = true
+      }
+      else if (mySeq(i) matches patternForRecipes) {
+        isNewHeader =true
+        Header = mySeq (i)
+        newSeq = newSeq :+ Header
+        isNewHeader = false
+        Header = mySeq (i)
       }
     }
+
 
     //functional solution
     //val funSeq = mySeq.zipWithIndex.filter(t => t._2 % 2 == 0 && t._2 < 12).map(t => t._1) //all even lines under 8

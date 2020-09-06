@@ -19,11 +19,6 @@ object cookbook3 extends App {
 
   def processSeq(mySeq:Seq[String])= {
 
-    //mySeq.slice(0,8) //just some lines
-
-    //iterative solution
-
-    //val pattern = "/^[^a-z]*$".r
     val patternForHeader = "^[^a-z]+$"
     val patternNonEmpty = "^[\\s\\S]+[\\S]+[\\s\\S]+"
     val patternForRecipes = "^[\\s]{4}[\\S]+[\\s\\S]+"
@@ -32,15 +27,15 @@ object cookbook3 extends App {
 
     var newSeq: Seq[String] = Seq()
     for (i <- 0 to 3880) {
-      //newSeq = newSeq :+ mySeq(i) //so we keep making new sequence using old one as base
 
       if ((mySeq(i) matches patternForHeader) && (mySeq(i) matches patternNonEmpty)) {
-        newSeq = newSeq :+ mySeq(i)
         isNewHeader = true
+        Header = mySeq (i)
       }
           else if (mySeq(i) matches patternForRecipes) {
-         isNewHeader =true
-          Header = mySeq (i)
+        if isNewHeader = false {
+          newSeq = newSeq :+ Header
+        }
         }
     }
 
