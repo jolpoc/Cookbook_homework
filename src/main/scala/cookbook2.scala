@@ -41,14 +41,10 @@ object cookbook2 extends App {
       }
     }
 
-
-    //functional solution
-    //val funSeq = mySeq.zipWithIndex.filter(t => t._2 % 2 == 0 && t._2 < 12).map(t => t._1) //all even lines under 8
-    //funSeq
     newSeq
   }
 
-  def saveSeq(destName:String, mySeq:Seq[String]) = {
+  def saveSeq(destName:String, mySeq:Seq[String]):Unit = {
     println(s"Saving my Sequence to file $destName") //destName <- dstName
 
 
